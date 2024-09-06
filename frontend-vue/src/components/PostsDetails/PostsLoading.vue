@@ -29,7 +29,7 @@ import AnimatedPlaceholder from './AnimatedPlaceholder.vue';
 }
 
 .placeholder-image {
-  background-color: #e0e0e0; /* Light gray background */
+  background-color: #e0e0e0; 
 }
 
 .text-anim, .btn-anim  {

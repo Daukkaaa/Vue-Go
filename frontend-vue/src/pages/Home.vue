@@ -19,20 +19,21 @@ import PostsLoading from '../components/PostsDetails/PostsLoading.vue'
 import AddPost from '../components/PostsDetails/AddPost.vue'
 import { useAuthStore } from '../stores/auth'
 import { usePostStore } from '../stores/post'
-import axios from 'axios'
+import apiClient from '../api/api'
 
 const storePost = usePostStore()
 const storeAuth = useAuthStore()
 
 onMounted(async () => {
   storePost.getPosts()
+  storeAuth.loadAuthState()
   try {
-    const response = await axios.get('http://localhost:8080/', {
+    const response = await apiClient.get('/', {
       withCredentials: true,
     })
-    storeAuth.profile = true
-    return response
+    storeAuth.auth(response.data)
   } catch (error) {
+    storeAuth.notAuth()
     console.error('Authorization failed:', error)
   }
 })

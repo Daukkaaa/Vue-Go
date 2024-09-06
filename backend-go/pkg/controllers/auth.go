@@ -43,7 +43,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	expirationTime := time.Now().Add(time.Minute * 5)
+	expirationTime := time.Now().Add(time.Minute * 1)
 	claims := &models.Claims{
 		StandardClaims: jwt.StandardClaims{
 			Subject:   existingUser.Email,
@@ -76,7 +76,7 @@ func Signup(c *gin.Context) {
 	models.DB.Where("email = ?", user.Email).First(&existingUser)
 
 	if existingUser.ID != 0 {
-		c.JSON(400, gin.H{"error": "user already exist"})
+		c.JSON(400, gin.H{"error": "User already exist"})
 		return
 	}
 

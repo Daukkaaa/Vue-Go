@@ -6,8 +6,8 @@
       <div class="d-flex ga-2">
         <v-btn outlined class="nav-btn" @click="router.push('/')"> Home </v-btn>
         <v-btn outlined class="nav-btn" @click="router.push('/about')"> About </v-btn>
-        <div v-if="storeAuth.profile">
-          <v-btn outlined class="nav-btn mr-15" @click="router.push('/profile')">Profile</v-btn>
+        <div v-if="storeAuth.isAuthenticated">
+          <v-btn outlined class="nav-btn mr-15" @click="storeAuth.logout">Logout</v-btn>
         </div>
         <div v-else class="d-flex ga-3">
           <v-btn outlined class="profile-btn" @click="router.push('/signup')"> Sign-up </v-btn>
@@ -24,6 +24,8 @@ import { useAuthStore } from '../stores/auth';
 
 const router = useRouter()
 const storeAuth = useAuthStore()
+
+storeAuth.loadAuthState()
 
 </script>
 

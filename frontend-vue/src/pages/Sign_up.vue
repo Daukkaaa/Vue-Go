@@ -22,6 +22,9 @@
           ></v-text-field>
           <v-btn class="me-4" type="submit"> Sign-Up </v-btn>
           <v-btn @click="handleReset"> clear </v-btn>
+          <div v-if="errorMsg">
+            <p class="error_msg">{{ errorMsg }}</p>
+          </div>
         </form>
         <div class="form_navigate">
           <p>Already have an account?</p>
@@ -33,9 +36,10 @@
 </template>
 
 <script setup>
-import axios from 'axios'
 import { useField, useForm } from 'vee-validate'
 import { useRouter } from 'vue-router'
+import apiClient from '../api/api'
+import { ref } from 'vue'
 
 const { handleSubmit, handleReset } = useForm({
   validationSchema: {
@@ -65,10 +69,11 @@ const password = useField('password')
 const email = useField('email')
 
 const router = useRouter()
+const errorMsg = ref('')
 
 const submit = handleSubmit(async values => {
   try {
-    const response = await axios.post('http://localhost:8080/signup', {
+    const response = await apiClient.post('/signup', {
       name: values.name,
       email: values.email,
       password: values.password,
@@ -77,7 +82,11 @@ const submit = handleSubmit(async values => {
     router.push('/login')
     return response
   } catch (error) {
-    console.error('SignUp failed:', error)
+    if (error.response && error.response.data && error.response.data.error) {
+      errorMsg.value = `Error: ${error.response.data.error}`
+    } else {
+      errorMsg.value = 'An unexpected error occurred' 
+    }
   }
 })
 </script>
@@ -106,5 +115,15 @@ const submit = handleSubmit(async values => {
 
 .form_navigate a {
   text-decoration: none;
+}
+
+.error_msg {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 15px;
+  font-size: 17px;
+  font-weight: 500;
+  color: rgb(203, 9, 9);
 }
 </style>

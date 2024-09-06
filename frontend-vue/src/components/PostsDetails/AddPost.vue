@@ -7,7 +7,7 @@
           variant="solo"
           v-model="fileInput"
           @change="handleFileChange"
-          :disabled="!storeAuth.profile"
+          :disabled="!storeAuth.isAuthenticated"
         ></v-file-input>
       </v-col>
       <v-col cols="12" sm="6">
@@ -15,7 +15,7 @@
           placeholder="Text"
           variant="solo"
           v-model="textInput"
-          :disabled="!storeAuth.profile"
+          :disabled="!storeAuth.isAuthenticated"
         ></v-text-field>
       </v-col>
       <v-col class="d-flex justify-center" cols="12">
